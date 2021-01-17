@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sidebar/sidebar/sidebarItem.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../sidebar/sidebarItem.dart';
+import '../sidebar_bloc/sidebarBloc.dart';
+import '../sidebar_bloc/sidebarEvents.dart';
 
 class SideBar extends StatefulWidget {
   @override
@@ -67,18 +71,34 @@ class _SideBarState extends State<SideBar> {
                   SideBarItem(
                     iconData: Icons.home,
                     itemName: "Home",
+                    ontap: () {
+                      BlocProvider.of<SideBarBloc>(context).add(HomeEvent());
+                      this.openSideBar();
+                    },
                   ),
                   SideBarItem(
                     iconData: Icons.bar_chart,
                     itemName: "Tanks",
+                    ontap: () {
+                      BlocProvider.of<SideBarBloc>(context).add(TankEvent());
+                      this.openSideBar();
+                    },
                   ),
                   SideBarItem(
                     iconData: Icons.add,
                     itemName: "More",
+                    ontap: () {
+                      BlocProvider.of<SideBarBloc>(context).add(MoreEvent());
+                      this.openSideBar();
+                    },
                   ),
                   SideBarItem(
                     iconData: Icons.logout,
                     itemName: "Log Out",
+                    ontap: () {
+                      BlocProvider.of<SideBarBloc>(context).add(LogOutEvent());
+                      this.openSideBar();
+                    },
                   ),
                 ],
               ),
