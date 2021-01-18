@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sidebar/sidebar_bloc/sidebarStates.dart';
 
 import '../sidebar/sidebarItem.dart';
 import '../sidebar_bloc/sidebarBloc.dart';
@@ -68,37 +69,50 @@ class _SideBarState extends State<SideBar> {
                     endIndent: 20,
                     indent: 20,
                   ),
-                  SideBarItem(
-                    iconData: Icons.home,
-                    itemName: "Home",
-                    ontap: () {
-                      BlocProvider.of<SideBarBloc>(context).add(HomeEvent());
-                      this.openSideBar();
-                    },
+                  BlocBuilder<SideBarBloc, SideBarStates>(
+                    builder: (context, state) => SideBarItem(
+                      iconData: Icons.home,
+                      itemName: "Home",
+                      ontap: () {
+                        BlocProvider.of<SideBarBloc>(context).add(HomeEvent());
+                        this.openSideBar();
+                      },
+                      color: state.homeColor(),
+                    ),
                   ),
-                  SideBarItem(
-                    iconData: Icons.bar_chart,
-                    itemName: "Tanks",
-                    ontap: () {
-                      BlocProvider.of<SideBarBloc>(context).add(TankEvent());
-                      this.openSideBar();
-                    },
+                  BlocBuilder<SideBarBloc, SideBarStates>(
+                    builder: (context, state) => SideBarItem(
+                      iconData: Icons.bar_chart,
+                      itemName: "Tanks",
+                      ontap: () {
+                        BlocProvider.of<SideBarBloc>(context).add(TankEvent());
+                        this.openSideBar();
+                      },
+                      color: state.tankColor(),
+                    ),
                   ),
-                  SideBarItem(
-                    iconData: Icons.add,
-                    itemName: "More",
-                    ontap: () {
-                      BlocProvider.of<SideBarBloc>(context).add(MoreEvent());
-                      this.openSideBar();
-                    },
+                  BlocBuilder<SideBarBloc, SideBarStates>(
+                    builder: (context, state) => SideBarItem(
+                      iconData: Icons.add,
+                      itemName: "More",
+                      ontap: () {
+                        BlocProvider.of<SideBarBloc>(context).add(MoreEvent());
+                        this.openSideBar();
+                      },
+                      color: state.moreColor(),
+                    ),
                   ),
-                  SideBarItem(
-                    iconData: Icons.logout,
-                    itemName: "Log Out",
-                    ontap: () {
-                      BlocProvider.of<SideBarBloc>(context).add(LogOutEvent());
-                      this.openSideBar();
-                    },
+                  BlocBuilder<SideBarBloc, SideBarStates>(
+                    builder: (context, state) => SideBarItem(
+                      iconData: Icons.logout,
+                      itemName: "Log Out",
+                      ontap: () {
+                        BlocProvider.of<SideBarBloc>(context)
+                            .add(LogOutEvent());
+                        this.openSideBar();
+                      },
+                      color: state.logoutColor(),
+                    ),
                   ),
                 ],
               ),

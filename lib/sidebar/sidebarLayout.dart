@@ -36,4 +36,11 @@ class _SideBarLayoutState extends State<SideBarLayout> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    this.sideBarBloc.close();
+    super.dispose();
+  }
 }
