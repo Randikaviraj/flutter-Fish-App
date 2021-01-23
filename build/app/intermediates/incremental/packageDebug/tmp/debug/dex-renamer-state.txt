@@ -1,4 +1,4 @@
-#Wed Jan 20 01:20:14 IST 2021
+#Sat Jan 23 05:49:13 IST 2021
 base.0=/home/randika/Desktop/RV/flutter/sidebar/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
