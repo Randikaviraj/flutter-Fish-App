@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../background/background.dart';
+import '../blocs/signupbloc/signupbloc.dart';
+import '../blocs/signupbloc/signup_events.dart';
+import '../functions/alert.dart';
+import '../models/signupmodel.dart';
 
 class SignupView extends StatelessWidget {
+  final bool status;
+  final String topic;
+  final String message;
+
+  SignupView({this.status, this.topic, this.message});
+
+  bool passwordCheck(String paswd, String confrmpaswd) {
+    if (paswd == confrmpaswd) {
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final signupbloc = BlocProvider.of<SignupBloc>(context);
+
     String fname;
     String lname;
     String email;
@@ -12,6 +31,11 @@ class SignupView extends StatelessWidget {
     String confirmPassword;
 
     Size size = MediaQuery.of(context).size;
+
+    if (this.status) {
+      WidgetsBinding.instance.addPostFrameCallback(
+          (duration) => alertMessage(context, this.topic, this.message));
+    }
 
     return Scaffold(
       body: Background(
@@ -123,7 +147,15 @@ class SignupView extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   horizontal: size.width * 0.3, vertical: 10),
               color: Colors.black,
-              onPressed: () {},
+              onPressed: () {
+                if (this.passwordCheck(password, confirmPassword)) {
+                  signupbloc.add(CallSignupEvent(
+                      SignupRequestModel(fname, lname, email, password)));
+                } else {
+                  alertMessage(
+                      context, "Error", "Confirm Password is not matching");
+                }
+              },
               child: Text(
                 "SIGNUP",
                 style: TextStyle(
