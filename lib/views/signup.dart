@@ -15,7 +15,7 @@ class SignUp extends StatelessWidget {
       child: BlocBuilder<SignupBloc, SignupState>(
         builder: (context, state) {
           if (state is SignUpInitialState) {
-            return SignupView();
+            return SignupView(status: false,);
           } else if (state is SignUpCalledState) {
             return SpineView();
           } else if (state is SignupFailedState) {

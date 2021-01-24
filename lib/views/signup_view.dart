@@ -7,16 +7,26 @@ import '../blocs/signupbloc/signup_events.dart';
 import '../functions/alert.dart';
 import '../models/signupmodel.dart';
 
-class SignupView extends StatelessWidget {
-  final bool status;
+class SignupView extends StatefulWidget {
+  bool status;
   final String topic;
   final String message;
+  SignupView({this.status = false, this.topic, this.message});
+  @override
+  _SignupViewState createState() => _SignupViewState();
+}
 
-  SignupView({this.status, this.topic, this.message});
-
+class _SignupViewState extends State<SignupView> {
+  String fname = "";
+  String lname = "";
+  String email = "";
+  String password = "";
+  String confirmPassword = "";
   bool passwordCheck(String paswd, String confrmpaswd) {
     if (paswd == confrmpaswd) {
       return true;
+    } else {
+      return false;
     }
   }
 
@@ -24,17 +34,12 @@ class SignupView extends StatelessWidget {
   Widget build(BuildContext context) {
     final signupbloc = BlocProvider.of<SignupBloc>(context);
 
-    String fname;
-    String lname;
-    String email;
-    String password;
-    String confirmPassword;
-
     Size size = MediaQuery.of(context).size;
 
-    if (this.status) {
+    if (widget.status) {
       WidgetsBinding.instance.addPostFrameCallback(
-          (duration) => alertMessage(context, this.topic, this.message));
+          (duration) => alertMessage(context, widget.topic, widget.message));
+      widget.status = false;
     }
 
     return Scaffold(
