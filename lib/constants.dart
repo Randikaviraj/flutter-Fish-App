@@ -5,3 +5,4 @@ const String ADDTANKURL='https://om/';
 const String GETFISHNAMES='///';
 const String FEEDNOW="";
 const String RENEW="";
+const String GRAPHURL="";

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sidebar/Repositories/graphrepo.dart';
+import 'package:sidebar/models/graphmodel.dart';
 
 import '../background/background.dart';
 import '../constants.dart';
@@ -12,6 +14,7 @@ import '../Repositories/tankidrepo.dart';
 import '../sidebar_bloc/sidebarBloc.dart';
 import '../sidebar_bloc/sidebarEvents.dart';
 import '../views/spine_view.dart';
+import '../views/graph_view.dart';
 
 class OneTankView extends StatefulWidget {
   final String tankid;
@@ -23,13 +26,17 @@ class OneTankView extends StatefulWidget {
 }
 
 class _OneTankViewState extends State<OneTankView> {
+  GraphRepo graphRepo;
   GetFishNameRepo getFishNameRepo;
   ControllerRepo controllerRepo;
   bool isreloading = false;
+  bool weeklyDataStatus = false;
+  GraphResponseModel graphResponseModel;
 
   @override
   void initState() {
     // TODO: implement initState
+    this.graphRepo = GraphRepo();
     this.getFishNameRepo = GetFishNameRepo();
     this.controllerRepo = ControllerRepo();
     super.initState();
@@ -88,7 +95,7 @@ class _OneTankViewState extends State<OneTankView> {
               padding: EdgeInsets.symmetric(
                   horizontal: size.width * 0.2, vertical: 10),
               color: Colors.blueGrey,
-              onPressed: () => null,
+              onPressed: () => this.WeeklyStatus("1d"),
               child: Text(
                 "WEEKLY STATUS",
                 style: TextStyle(
@@ -215,11 +222,17 @@ class _OneTankViewState extends State<OneTankView> {
     }
   }
 
-  void controlHandler(BuildContext context, String url) async {
+  Future<void> controlHandler(BuildContext context, String url) async {
+    setState(() {
+      this.isreloading = true;
+    });
     try {
       bool status = await this
           .controllerRepo
           .sendControl(FishNameRequestModel(widget.tankid), url);
+      setState(() {
+        this.isreloading = false;
+      });
       if (status) {
         alertMessage(context, "Done", "you have sussefully done...");
       } else {
@@ -228,8 +241,65 @@ class _OneTankViewState extends State<OneTankView> {
         Navigator.of(context).pop(true);
       }
     } catch (e) {
+      setState(() {
+        this.isreloading = false;
+      });
       alertMessage(
           context, "Connection Failed", "Check your network connection....");
     }
+  }
+
+  void WeeklyStatus(String day) async {
+    List<TimeSeriesPh> phDataArray = [
+      TimeSeriesPh(new DateTime(2021, 9, 19), 10),
+      TimeSeriesPh(new DateTime(2021, 9, 21), 11),
+      TimeSeriesPh(new DateTime(2021, 9, 22), 25),
+      TimeSeriesPh(new DateTime(2021, 9, 23), 50),
+      TimeSeriesPh(new DateTime(2021, 9, 24), 55)
+    ];
+    List<TimeSeriesTemp> tempDataArray = [
+      TimeSeriesTemp(new DateTime(2021, 9, 19), 10),
+      TimeSeriesTemp(new DateTime(2021, 9, 21), 11),
+      TimeSeriesTemp(new DateTime(2021, 9, 22), 25),
+      TimeSeriesTemp(new DateTime(2021, 9, 23), 50),
+      TimeSeriesTemp(new DateTime(2021, 9, 24), 55)
+    ];
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          fullscreenDialog: true,
+          builder: (context) => GraphView(
+            phDataArray: phDataArray,
+            tempDataArray: tempDataArray,
+          ),
+        ));
+    // setState(() {
+    //   this.isreloading = false;
+    // });
+    // try {
+    //   GraphResponseModel graphResponseModel =
+    //       await this.graphRepo.getphGraph(day, widget.email, widget.tankid);
+
+    //   if (graphResponseModel != null) {
+    //     this.graphResponseModel = graphResponseModel;
+    //     this.weeklyDataStatus = true;
+    //     Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //           fullscreenDialog: true,
+    //           builder: (context) => GraphView(
+    //             phDataArray: graphResponseModel.phlist,
+    //             tempDataArray: graphResponseModel.templist,
+    //           ),
+    //         ));
+    //   } else {
+    //     await logoutAlertMessage(context, "Time Out",
+    //         "Your session is time out..pleace login again..");
+    //     Navigator.of(context).pop(true);
+    //   }
+    // } catch (e) {
+    //   alertMessage(
+    //       context, "Connection Failed", "Check your network connection....");
+    // }
   }
 }
