@@ -7,6 +7,10 @@ class GraphRequestModel {
 
   GraphRequestModel(
       {@required this.email, @required this.device_id, @required this.day});
+
+  Map<String, dynamic> toMap() {
+    return {"email": email, "device_id": device_id, "day": day};
+  }
 }
 
 class GraphResponseModel {

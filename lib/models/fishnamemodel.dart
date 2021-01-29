@@ -1,6 +1,12 @@
 class FishNameRequestModel {
   final String device_id;
   FishNameRequestModel(this.device_id);
+
+  Map<String, dynamic> toMap() {
+    return{
+      "device_id":device_id
+    };
+  }
 }
 
 

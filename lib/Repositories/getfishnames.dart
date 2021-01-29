@@ -11,7 +11,7 @@ class GetFishNameRepo {
     sleep(new Duration(seconds: 10));
     final prefs = await SharedPreferences.getInstance();
     final result = await http.post(GETFISHNAMES,
-        body: jsonEncode(obj),
+        body: json.encode(obj.toMap()),
         headers: {HttpHeaders.authorizationHeader: prefs.getString("token")});
 
     if (result.statusCode == 401) {

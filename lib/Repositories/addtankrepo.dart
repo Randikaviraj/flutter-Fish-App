@@ -10,7 +10,7 @@ class AddTankRepo {
   Future<AddTankStatus> addTank(AddTankRequestModel obj) async {
     final prefs = await SharedPreferences.getInstance();
     final result = await http.post(ADDTANKURL,
-        body: jsonEncode(obj),
+        body: json.encode(obj.toMap()),
         headers: {HttpHeaders.authorizationHeader: prefs.getString("token")});
     if (result.statusCode == 401) {
       return AddTankStatus(true, false);

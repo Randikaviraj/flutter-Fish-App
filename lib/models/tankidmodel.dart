@@ -10,8 +10,12 @@ class ResponseTankIdsModel {
   }
 }
 
-class RequestTankIdsModel{
+class RequestTankIdsModel {
   final String email;
 
   RequestTankIdsModel(this.email);
+
+  Map<String, dynamic> toMap() {
+    return {"email": email};
+  }
 }

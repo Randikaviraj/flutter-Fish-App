@@ -10,8 +10,7 @@ class GraphRepo {
   Future<GraphResponseModel> getphGraph(String day, String email, String deviceid) async {
     final prefs = await SharedPreferences.getInstance();
     final result = await http.post(GRAPHURL,
-        body: jsonEncode(
-            GraphRequestModel(email: email, device_id: deviceid, day: day)),
+        body: json.encode(GraphRequestModel(email: email, device_id: deviceid, day: day).toMap()),
         headers: {HttpHeaders.authorizationHeader: prefs.getString("token")});
 
     if (result.statusCode == 401) {

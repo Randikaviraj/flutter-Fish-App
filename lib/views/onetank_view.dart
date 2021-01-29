@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sidebar/Repositories/graphrepo.dart';
-import 'package:sidebar/models/graphmodel.dart';
 
 import '../background/background.dart';
 import '../constants.dart';
 import 'fish_detail_view.dart';
 import '../functions/alert.dart';
 import '../models/fishnamemodel.dart';
+import '../models/graphmodel.dart';
 import '../Repositories/controlerrepo.dart';
 import '../Repositories/getfishnames.dart';
+import '../Repositories/graphrepo.dart';
 import '../Repositories/tankidrepo.dart';
 import '../sidebar_bloc/sidebarBloc.dart';
 import '../sidebar_bloc/sidebarEvents.dart';
@@ -250,56 +250,56 @@ class _OneTankViewState extends State<OneTankView> {
   }
 
   void WeeklyStatus(String day) async {
-    List<TimeSeriesPh> phDataArray = [
-      TimeSeriesPh(new DateTime(2021, 9, 19), 10),
-      TimeSeriesPh(new DateTime(2021, 9, 21), 11),
-      TimeSeriesPh(new DateTime(2021, 9, 22), 25),
-      TimeSeriesPh(new DateTime(2021, 9, 23), 50),
-      TimeSeriesPh(new DateTime(2021, 9, 24), 55)
-    ];
-    List<TimeSeriesTemp> tempDataArray = [
-      TimeSeriesTemp(new DateTime(2021, 9, 19), 10),
-      TimeSeriesTemp(new DateTime(2021, 9, 21), 11),
-      TimeSeriesTemp(new DateTime(2021, 9, 22), 25),
-      TimeSeriesTemp(new DateTime(2021, 9, 23), 50),
-      TimeSeriesTemp(new DateTime(2021, 9, 24), 55)
-    ];
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          fullscreenDialog: true,
-          builder: (context) => GraphView(
-            phDataArray: phDataArray,
-            tempDataArray: tempDataArray,
-          ),
-        ));
-    // setState(() {
-    //   this.isreloading = false;
-    // });
-    // try {
-    //   GraphResponseModel graphResponseModel =
-    //       await this.graphRepo.getphGraph(day, widget.email, widget.tankid);
+    // List<TimeSeriesPh> phDataArray = [
+    //   TimeSeriesPh(new DateTime(2021, 9, 19), 10),
+    //   TimeSeriesPh(new DateTime(2021, 9, 21), 11),
+    //   TimeSeriesPh(new DateTime(2021, 9, 22), 25),
+    //   TimeSeriesPh(new DateTime(2021, 9, 23), 50),
+    //   TimeSeriesPh(new DateTime(2021, 9, 24), 55)
+    // ];
+    // List<TimeSeriesTemp> tempDataArray = [
+    //   TimeSeriesTemp(new DateTime(2021, 9, 19), 10),
+    //   TimeSeriesTemp(new DateTime(2021, 9, 21), 11),
+    //   TimeSeriesTemp(new DateTime(2021, 9, 22), 25),
+    //   TimeSeriesTemp(new DateTime(2021, 9, 23), 50),
+    //   TimeSeriesTemp(new DateTime(2021, 9, 24), 55)
+    // ];
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       fullscreenDialog: true,
+    //       builder: (context) => GraphView(
+    //         phDataArray: phDataArray,
+    //         tempDataArray: tempDataArray,
+    //       ),
+    //     ));
+    setState(() {
+      this.isreloading = false;
+    });
+    try {
+      GraphResponseModel graphResponseModel =
+          await this.graphRepo.getphGraph(day, widget.email, widget.tankid);
 
-    //   if (graphResponseModel != null) {
-    //     this.graphResponseModel = graphResponseModel;
-    //     this.weeklyDataStatus = true;
-    //     Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //           fullscreenDialog: true,
-    //           builder: (context) => GraphView(
-    //             phDataArray: graphResponseModel.phlist,
-    //             tempDataArray: graphResponseModel.templist,
-    //           ),
-    //         ));
-    //   } else {
-    //     await logoutAlertMessage(context, "Time Out",
-    //         "Your session is time out..pleace login again..");
-    //     Navigator.of(context).pop(true);
-    //   }
-    // } catch (e) {
-    //   alertMessage(
-    //       context, "Connection Failed", "Check your network connection....");
-    // }
+      if (graphResponseModel != null) {
+        this.graphResponseModel = graphResponseModel;
+        this.weeklyDataStatus = true;
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (context) => GraphView(
+                phDataArray: graphResponseModel.phlist,
+                tempDataArray: graphResponseModel.templist,
+              ),
+            ));
+      } else {
+        await logoutAlertMessage(context, "Time Out",
+            "Your session is time out..pleace login again..");
+        Navigator.of(context).pop(true);
+      }
+    } catch (e) {
+      alertMessage(
+          context, "Connection Failed", "Check your network connection....");
+    }
   }
 }

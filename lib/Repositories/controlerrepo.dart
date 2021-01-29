@@ -9,7 +9,7 @@ class ControllerRepo {
   Future<bool> sendControl(FishNameRequestModel obj, String url) async {
     final prefs = await SharedPreferences.getInstance();
     final result = await http.post(url,
-        body: jsonEncode(obj),
+        body: json.encode(obj.toMap()),
         headers: {HttpHeaders.authorizationHeader: prefs.getString("token")});
 
     if (result.statusCode == 401) {
