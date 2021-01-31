@@ -271,12 +271,14 @@ class _OneTankViewState extends State<OneTankView> {
     //       ),
     //     ));
     setState(() {
-      this.isreloading = false;
+      this.isreloading = true;
     });
     try {
       GraphResponseModel graphResponseModel =
           await this.graphRepo.getphGraph(day, widget.email, widget.tankid);
-
+      setState(() {
+        this.isreloading = false;
+      });
       if (graphResponseModel != null) {
         this.graphResponseModel = graphResponseModel;
         this.weeklyDataStatus = true;
@@ -295,6 +297,9 @@ class _OneTankViewState extends State<OneTankView> {
         Navigator.of(context).pop(true);
       }
     } catch (e) {
+      setState(() {
+        this.isreloading = false;
+      });
       alertMessage(
           context, "Connection Failed", "Check your network connection....");
     }

@@ -22,7 +22,7 @@ class SignUp extends StatelessWidget {
             return SignupView(
               status: true,
               topic: "Sign Up Failed",
-              message: "Sign up is failed ,check your email,seems you are already signup....",
+              message: "Sign up is failed ,check your email,seems you are already signed up....",
             );
           } else if (state is SignupedState) {
             return SignupView(
