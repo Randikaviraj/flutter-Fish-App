@@ -17,7 +17,6 @@ class GetFishNameRepo {
     if (result.statusCode == 401) {
       return null;
     } else if (result.statusCode == 200) {
-      prefs.setString("token", result.headers['Authorization']);
       return FishNameResponseModel.fromJson(jsonDecode(result.body));
     } else {
       throw Exception();

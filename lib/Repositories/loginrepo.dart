@@ -13,9 +13,7 @@ class LoginRepo {
       return '';
     }
     this.loginresponse = LoginResponseModel.fromJson(jsonDecode(result.body));
-    return result.headers['Authorization'];
-  //   this.loginresponse=LoginResponseModel("fname", "lname", "myemail@.com");
-  //  return 'token';
+    return result.headers['authorization'];
   }
   
   LoginResponseModel get loginResponse{

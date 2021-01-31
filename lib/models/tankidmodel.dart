@@ -6,7 +6,7 @@ class ResponseTankIdsModel {
   List<String> get tankIds => this.tankids;
 
   factory ResponseTankIdsModel.fromJson(Map<String, dynamic> json) {
-    return ResponseTankIdsModel(json["data"]);
+    return ResponseTankIdsModel(List<String>.from(json["data"].map((x) => x)));
   }
 }
 

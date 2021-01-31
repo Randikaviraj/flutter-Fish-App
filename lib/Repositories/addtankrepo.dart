@@ -17,7 +17,7 @@ class AddTankRepo {
     } else if (result.statusCode == 406) {
       return AddTankStatus(false, true);
     } else if (result.statusCode == 200) {
-      prefs.setString("token", result.headers['Authorization']);
+      prefs.setString("token", result.headers['authorization']);
       return AddTankStatus(false, false);
     }
     return AddTankStatus(true, true);

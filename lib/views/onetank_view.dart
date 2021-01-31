@@ -112,9 +112,7 @@ class _OneTankViewState extends State<OneTankView> {
               padding: EdgeInsets.symmetric(
                   horizontal: size.width * 0.2, vertical: 10),
               color: Colors.blueGrey,
-              onPressed: () {
-                this.fishDetailHandler(context);
-              },
+              onPressed: () async => this.fishDetailHandler(context),
               child: Text(
                 "FISH DETAILS",
                 style: TextStyle(
@@ -197,7 +195,6 @@ class _OneTankViewState extends State<OneTankView> {
       setState(() {
         this.isreloading = false;
       });
-
       if (fishNameResponseModel == null) {
         await logoutAlertMessage(context, "Time Out",
             "Your session is time out..pleace login again..");

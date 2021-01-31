@@ -19,6 +19,14 @@ class SideBarBloc extends Bloc<SideBarEventS, SideBarStates> {
       try {
         List<String> tankids = await event.tankIdRepo.tankIds(event.email);
         if (tankids != null) {
+          if (tankids.length == 0) {
+            yield HomeState(RedirectView(
+              email: event.email,
+              isAuthenticatinFailed: false,
+              message: "No Tanks",
+              topic: "Hey,you haven't added tanks yet..",
+            ));
+          }
           yield HomeState(Home(
             idarray: tankids,
             email: event.email,
@@ -59,18 +67,24 @@ class SideBarBloc extends Bloc<SideBarEventS, SideBarStates> {
       try {
         AddTankStatus status =
             await event.addTankRepo.addTank(event.addTankRequestModel);
-        if (status.authfail && status.wrongid) {
-          yield TanksState(
-              isshowMessage: true,
-              topic: "Error",
-              isAuthFailed: false,
-              message: "Something wrong, please try later..");
-        } else if (status.authfail) {
+        if (status.authfail) {
           yield TanksState(
               isshowMessage: true,
               isAuthFailed: true,
               topic: "TimeOut",
               message: "Your session is time out,please login again..");
+        } else if (!status.authfail && !status.wrongid) {
+          yield TanksState(
+              isshowMessage: true,
+              topic: "Done",
+              isAuthFailed: false,
+              message: "Successfully added a tank..");
+        } else if (status.authfail && status.wrongid) {
+          yield TanksState(
+              isshowMessage: true,
+              topic: "Error",
+              isAuthFailed: false,
+              message: "Something wrong, please try again later..");
         } else if (status.wrongid) {
           yield TanksState(
               isshowMessage: true,
