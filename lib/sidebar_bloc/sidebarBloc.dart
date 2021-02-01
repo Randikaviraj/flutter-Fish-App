@@ -25,7 +25,7 @@ class SideBarBloc extends Bloc<SideBarEventS, SideBarStates> {
               email: event.email,
               isAuthenticatinFailed: false,
               message: "Hey,you haven't added tanks yet..",
-              topic: "NO TANKS",
+              topic: "NO TANK",
             ));
           } else {
             yield HomeState(Home(
