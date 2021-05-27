@@ -95,7 +95,7 @@ class _OneTankViewState extends State<OneTankView> {
               padding: EdgeInsets.symmetric(
                   horizontal: size.width * 0.2, vertical: 10),
               color: Colors.blueGrey,
-              onPressed: () => this.WeeklyStatus("1d"),
+              onPressed: () => this.WeeklyStatus("3d"),
               child: Text(
                 "WEEKLY STATUS",
                 style: TextStyle(
@@ -279,6 +279,7 @@ class _OneTankViewState extends State<OneTankView> {
       setState(() {
         this.isreloading = false;
       });
+      print( graphResponseModel.phlist);
       if (graphResponseModel != null) {
         this.graphResponseModel = graphResponseModel;
         this.weeklyDataStatus = true;
@@ -297,6 +298,7 @@ class _OneTankViewState extends State<OneTankView> {
         Navigator.of(context).pop(true);
       }
     } catch (e) {
+      print(e);
       setState(() {
         this.isreloading = false;
       });
