@@ -26,6 +26,7 @@ class Tanks extends StatefulWidget {
 }
 
 class _TanksState extends State<Tanks> {
+  String phonenumber;
   String tankid;
   String email;
   int height;
@@ -76,6 +77,22 @@ class _TanksState extends State<Tanks> {
                 decoration: InputDecoration(
                     hintText: "Tank ID",
                     helperText: "Enter your tank id here..",
+                    border: new OutlineInputBorder(
+                        borderSide: new BorderSide(color: Colors.teal))),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
+              width: size.width * 0.8,
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+              decoration: BoxDecoration(color: Colors.grey[200]),
+              child: TextField(
+                onChanged: (value) {
+                  this.phonenumber = value;
+                },
+                decoration: InputDecoration(
+                    hintText: "WhatsApp Number",
+                    helperText: "Enter your whatsapp number here..",
                     border: new OutlineInputBorder(
                         borderSide: new BorderSide(color: Colors.teal))),
               ),
@@ -202,6 +219,7 @@ class _TanksState extends State<Tanks> {
                       nextevent: AddTankClickedEvent(
                           addTankRepo: AddTankRepo(),
                           addTankRequestModel: AddTankRequestModel(
+                              phone_no: this.phonenumber,
                               device_id: this.tankid,
                               email: this.email,
                               fish_count: this.fishcount,
